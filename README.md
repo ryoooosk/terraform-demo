@@ -5,9 +5,10 @@
 ### 構成ファイル一覧
 
 - `terraform.tf` : Terraformのバックエンド（S3）設定。
-- `variables.tf` : VPCやタグなどの変数定義。
-- `vpc.tf` : VPCリソースの作成。
 - `env/dev.tfvars` : 開発環境用の変数ファイル。
+- `modules/vpc/vpc.tf` : VPCリソースの作成。
+- `modules/vpc/variables.tf` : VPCやタグなどの変数定義。
+- `modules/vpc/outputs.tf` : VPCモジュールの出力値定義。
 
 ### 利用方法
 

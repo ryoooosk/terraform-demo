@@ -11,3 +11,17 @@ module "vpc" {
     private = ["10.0.101.0/24", "10.0.102.0/24"]
   }
 }
+
+module "ecs_cluster" {
+  source       = "./modules/ecs"
+  service_name = "sample"
+  env          = terraform.workspace
+}
+
+output "ecs_cluster_name" {
+  value = module.ecs_cluster.cluster_name
+}
+
+output "ecs_cluster_arn" {
+  value = module.ecs_cluster.cluster_arn
+}

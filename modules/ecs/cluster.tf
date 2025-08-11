@@ -12,6 +12,7 @@ resource "aws_ecs_cluster" "cluster" {
   name = "${var.service_name}-${var.env}-cluster"
 
   setting {
+    # ECS クラスター内のリソース（CPU、メモリなど）の利用状況や、タスク・サービスのパフォーマンスデータを自動で CloudWatch に送信し、可視化・モニタリングできる機能
     name  = "containerInsights"
     value = "enabled"
   }

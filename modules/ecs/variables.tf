@@ -14,6 +14,6 @@ variable "cluster_additional_tags" {
   default     = {}
   validation {
     condition     = length(setintersection(keys(var.cluster_additional_tags), ["ServiceName", "Env"])) == 0
-    error_message = "Key names, ServiceName and Env is reserved. Not allowed to use them."
+    error_message = "Key names ServiceName and Env are reserved. Not allowed to use them."
   }
 }

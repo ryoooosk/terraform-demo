@@ -1,5 +1,5 @@
 variable "service_name" {
-  description = "VPCを利用するサービス名"
+  description = "ECSクラスターを作成するサービス名"
   type        = string
 }
 

@@ -1,31 +1,55 @@
-## terraform-demo
+# terraform-demo
 
-このリポジトリは、Terraformを用いてAWS上にVPC（Virtual Private Cloud）を構築するためのサンプルです。
+このリポジトリは、AWSインフラストラクチャをTerraformで管理するためのサンプルプロジェクトです。
 
-### 構成ファイル一覧
+## セットアップと利用方法
 
-- `terraform.tf` : Terraformのバックエンド（S3）設定。
-- `env/dev.tfvars` : 開発環境用の変数ファイル。
-- `modules/vpc/vpc.tf` : VPCリソースの作成。
-- `modules/vpc/variables.tf` : VPCやタグなどの変数定義。
-- `modules/vpc/outputs.tf` : VPCモジュールの出力値定義。
+1. [Terraform](https://www.terraform.io/downloads.html) v1.12.2以上をインストールしてください。
+2. AWSアカウントを用意し、認証情報を環境変数または `~/.aws/credentials` で設定してください。
+   - 例（zshの場合）:
 
-### 利用方法
+     ```zsh
+     export AWS_ACCESS_KEY_ID=あなたのアクセスキーID
+     export AWS_SECRET_ACCESS_KEY=あなたのシークレットアクセスキー
+     export AWS_DEFAULT_REGION=ap-northeast-1
+     ```
 
-1. AWS認証情報をローカル環境変数に設定してください。
-   以下のコマンドをターミナルで実行します（zshの場合）：
+3. 初期化:
 
-   ```zsh
-   export AWS_ACCESS_KEY_ID=あなたのアクセスキーID
-   export AWS_SECRET_ACCESS_KEY=あなたのシークレットアクセスキー
-   export AWS_DEFAULT_REGION=ap-northeast-1 # 例: 東京リージョン
+   ```sh
+   terraform init
    ```
 
-2. `terraform init` で初期化。
-3. `terraform plan -var-file=env/dev.tfvars` で内容確認。
-4. `terraform apply -var-file=env/dev.tfvars` でVPCを作成。
+    **補足:**
+    `terraform init` は、初回実行時だけでなく、プロバイダーやモジュールの追加・変更、バックエンド設定の変更、Terraformバージョンアップ時などにも再実行が必要です。
+    コマンド実行時に「初期化が必要」と表示された場合も再度実行してください。
 
-### 必要なツール
+4. プラン作成:
 
-- Terraform v1.12.2以上
-- AWSアカウント
+   ```sh
+   terraform plan -var-file=env/dev.tfvars
+   ```
+
+5. 適用:
+
+   ```sh
+   terraform apply -var-file=env/dev.tfvars
+   ```
+
+## バリデーションについて
+
+`terraform validate` コマンドを使うことで、Terraform構成ファイルの文法や基本的なエラーを事前にチェックできます。
+リソース作成前に実行することを推奨します。
+
+---
+
+## バックエンドのステート管理について
+
+本プロジェクトでは、Terraformの状態（state）ファイルをS3バケットで管理しています。
+設定例は `terraform.tf` を参照してください。
+
+## モジュール概要
+
+- VPC・サブネット・ルートテーブル等のネットワーク関連リソース（modules/vpc/）
+- ECSクラスター関連リソース（modules/ecs/）
+- ECRリポジトリとライフサイクルポリシー（modules/ecr/）

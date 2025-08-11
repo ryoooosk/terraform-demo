@@ -4,6 +4,6 @@ output "cluster_name" {
 }
 
 output "cluster_arn" {
-  description = "作成されたクラスターのARn"
+  description = "作成されたクラスターのARN"
   value       = aws_ecs_cluster.cluster.arn
 }

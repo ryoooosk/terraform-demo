@@ -1,0 +1,24 @@
+name: Action lint
+
+on:
+  pull_request:
+    paths: [".github/workflows/*yml", ".github/workflows/*yaml"]
+
+# パイプ処理中のエラーをキャッチするために明示的にシェル指定
+defaults:
+  run:
+    shell: bash
+
+# 多重起動の防止
+concurrency:
+  group: ${{ github.workflow }}-${{ github.actor }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          docker run --rm -v "$(pwd):$(pwd)" -w "$(pwd)" rhysd/actionlint:latest

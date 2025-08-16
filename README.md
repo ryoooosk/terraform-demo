@@ -21,7 +21,26 @@
      aws_access_key_id = あなたのアクセスキーID
      aws_secret_access_key = あなたのシークレットアクセスキー
 
-3. 初期化:
+
+3. 本プロジェクトは「dev」環境（`env/dev.tfvars`）を前提としています。
+
+   Terraformの「ワークスペース」は、同じ構成ファイルで複数の独立した状態（state）を管理できる機能です。
+   このプロジェクトでは「dev」ワークスペースを利用しています。
+   （`terraform workspace select dev` で dev ワークスペースを選択してください）
+   環境ごとに状態ファイルを分けたい場合は、以下のコマンドでワークスペースを作成・切り替えできます。
+
+   ```sh
+   terraform workspace new <workspace名>   # 新規作成
+   terraform workspace select <workspace名> # 切り替え
+   ```
+
+   例えば、dev以外の環境（例: prod）を利用したい場合は、
+
+   1. `terraform workspace new prod` でワークスペースを作成
+   2. `terraform workspace select prod` で切り替え
+   3. `terraform plan -var-file=env/prod.tfvars` などで適用
+
+4. 初期化:
 
    ```sh
    terraform init
@@ -31,24 +50,27 @@
     `terraform init` は、初回実行時だけでなく、プロバイダーやモジュールの追加・変更、バックエンド設定の変更、Terraformバージョンアップ時などにも再実行が必要です。
     コマンド実行時に「初期化が必要」と表示された場合も再度実行してください。
 
-4. プラン作成:
+5. プラン作成:
 
    ```sh
    terraform plan -var-file=env/dev.tfvars
    ```
 
-5. 適用:
+6. 適用:
 
    ```sh
    terraform apply -var-file=env/dev.tfvars
    ```
 
-## バリデーションについて
+### バリデーションについて
 
 `terraform validate` コマンドを使うことで、Terraform構成ファイルの文法や基本的なエラーを事前にチェックできます。
 リソース作成前に実行することを推奨します。
 
----
+### GitHub ActionsでECRへプッシュするためのIAMロール設定
+
+`.github/workflows/build-and-push-container-image.yml`のGitHub ActionsワークフローでECRへイメージをプッシュします。
+そのためにmodules/iam/role/oidc/github で作成されるIAMロールのARNをGitHubリポジトリのSecretsに登録してください。
 
 ## バックエンドのステート管理について
 

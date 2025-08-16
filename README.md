@@ -204,3 +204,36 @@ locals {
    instance_type = var.is_prod ? "m5.large" : "t3.micro"
 }
 ```
+
+## terraform-docs
+
+`terraform-docs`は、Terraformの構成ファイル（.tf）から自動的にドキュメントを生成するツールです。主に変数・出力・リソース・モジュールなどの情報をMarkdownやHTMLなどの形式で出力でき、READMEの自動更新やインフラ構成の可視化に役立ちます。
+
+### 使い方例
+
+1. インストール（Homebrewの場合）:
+
+   ```sh
+   brew install terraform-docs
+   ```
+
+2. ドキュメント生成:
+
+   ```sh
+   terraform-docs <FORMAT> <PATH>
+   ```
+
+   主な引数・オプション
+
+   - `<FORMAT>`  
+      出力形式を指定します。例: `markdown`, `md`, `json`, `yaml`, `html` など。
+   - `<PATH>`  
+      ドキュメント化したいTerraformディレクトリを指定します。例: `.`（カレントディレクトリ）
+   - `--output-file README.md`  
+      生成したドキュメントを指定ファイルに出力します。
+   - `--sort-by-required`  
+      変数の必須・任意順でソートします。
+   - `--show`  
+      表示する項目をカスタマイズできます。例: `--show inputs,outputs,providers,modules,resources`
+   - `--config <file>`  
+      独自の設定ファイル（YAML）で出力内容を制御できます。

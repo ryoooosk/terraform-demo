@@ -28,7 +28,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
     ]
     # subクレームが指定したGitHub リポジトリに一致することを要求
     condition {
-      test     = "Stringlike"                              # 文字列パターン一致による条件
+      test     = "StringLike"                              # 文字列パターン一致による条件
       variable = "token.actions.githubusercontent.com:sub" # トークンが発行されたユーザーやサービスを一意に識別するために値（OIDCトークンのsubクレーム）
       # 変数を使ってAWSへのアクセス権限を付与したいGitHub Actionsワークフローの含まれるGitHub Organizationとリポジトリを指定できるように
       values = [
